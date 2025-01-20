@@ -33,6 +33,7 @@ export interface GameResult {
 
 export interface LeaderboardEntry extends GameResult {
   displayname: string;
+  xUsername: string;
   wpm: number;
   accuracy: number;
 }

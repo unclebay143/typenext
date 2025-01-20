@@ -13,7 +13,7 @@ export default function Results({
 }: ResultsProps) {
   return (
     <div className='space-y-4 pt-6'>
-      <h2 className='text-2xl font-semibold'>Your Results</h2>
+      <h2 className='text-2xl font-semibold'>Your Result</h2>
       <div className='p-4 bg-gray-100 dark:bg-gray-700 rounded'>
         <p>Profession: {result.profession}</p>
         <p>Level: {result.level}</p>

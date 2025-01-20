@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useState } from "react";
+import { FormEvent, useCallback, useRef, useState } from "react";
 import Link from "next/link";
 import { Sun, Moon, LogOut, X, Menu } from "lucide-react";
 import { useTheme } from "next-themes";
@@ -16,6 +16,7 @@ import {
 import { createClient } from "@/lib/supabase/client";
 import { cn } from "@/lib/utils";
 import { User } from "@/types";
+import { toast } from "sonner";
 
 export default function Layout({
   children,
@@ -26,6 +27,8 @@ export default function Layout({
 }) {
   const { theme, setTheme } = useTheme();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const xUsernameRef = useRef<HTMLInputElement | null>(null);
+  const [updating, setUpdating] = useState(false);
 
   const toggleMobileMenu = useCallback(() => {
     setMobileMenuOpen((prev) => !prev);
@@ -40,6 +43,21 @@ export default function Layout({
     setTheme((prevTheme) => (prevTheme === "dark" ? "light" : "dark"));
   }, [setTheme]);
 
+  const handleUpdate = async (e: FormEvent) => {
+    e.preventDefault();
+    setUpdating(true);
+    const supabase = createClient();
+    const { status } = await supabase
+      .from("users")
+      .update({ xUsername: xUsernameRef.current?.value })
+      .eq("id", currentUser?.id)
+      .select("xUsername");
+
+    if (status === 200) {
+      toast("X username saved.");
+      setUpdating(false);
+    }
+  };
   return (
     <div className='min-h-screen bg-white dark:bg-gradient-to-br dark:from-emerald-900 dark:via-emerald-800 dark:to-emerald-950 duration-300'>
       <header
@@ -93,6 +111,28 @@ export default function Layout({
                       <Link href='/histories'>Histories</Link>
                     </DropdownMenuItem>
                     <DropdownMenuSeparator />
+                    <DropdownMenuLabel>X (Twitter) Username</DropdownMenuLabel>
+                    <form
+                      onSubmit={handleUpdate}
+                      className='flex gap-1 px-2 py-1.5'
+                    >
+                      <input
+                        defaultValue={currentUser.xUsername ?? ""}
+                        required
+                        pattern='^[a-zA-Z0-9]+$'
+                        ref={xUsernameRef}
+                        className='border rounded p-0.5 text-sm'
+                        placeholder='i.e unclebay143'
+                      />
+                      <button
+                        type='submit'
+                        disabled={updating}
+                        className='disabled:opacity-70 text-xs bg-black text-zinc-200 p-0.5 px-1 rounded dark:bg-emerald-700 dark:text-zinc-200'
+                      >
+                        Save
+                      </button>
+                    </form>
+                    <DropdownMenuSeparator />
                     <DropdownMenuItem onClick={handleLogOut}>
                       <LogOut />
                       <span>Log out</span>
@@ -141,6 +181,10 @@ export default function Layout({
                 href: "/leaderboard",
                 label: "Leaderboard",
               },
+              {
+                href: "/histories",
+                label: "Histories",
+              },
             ].map((item) => (
               <Link
                 key={item.href}
@@ -151,6 +195,30 @@ export default function Layout({
                 {item.label}
               </Link>
             ))}
+
+            <form
+              onSubmit={handleUpdate}
+              className='flex flex-col gap-1 px-2 py-1.5 items-start'
+            >
+              <div className='flex flex-col gap-0.5'>
+                <label>X (Twitter) Username</label>
+                <input
+                  required
+                  pattern='^[a-zA-Z0-9]+$'
+                  ref={xUsernameRef}
+                  defaultValue={currentUser?.xUsername ?? ""}
+                  className='border rounded p-0.5 text-sm'
+                  placeholder='i.e unclebay143'
+                />
+              </div>
+              <button
+                type='submit'
+                disabled={updating}
+                className='disabled:opacity-70 text-xs bg-black text-zinc-200 p-0.5 px-1 rounded dark:bg-emerald-700 dark:text-zinc-200'
+              >
+                Save
+              </button>
+            </form>
             <button
               onClick={() => {
                 toggleDarkMode();

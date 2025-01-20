@@ -3,14 +3,16 @@
 import { useState, useEffect } from "react";
 import { LeaderboardEntry } from "@/types";
 import { createClient } from "@/lib/supabase/client";
+import { useCurrentUser } from "@/hooks/currentUser";
 
 export default function Leaderboard() {
   const [leaderboard, setLeaderboard] = useState<LeaderboardEntry[]>([]);
   const supabase = createClient();
+  const { user: currentUser } = useCurrentUser();
 
   useEffect(() => {
     const fetchData = async () => {
-      const { data, error } = await supabase.rpc("get_top_wpm_per_user_13");
+      const { data, error } = await supabase.rpc("get_leaderboard_v0");
       if (error) {
         console.error("Error fetching user WPM and accuracy:", error);
       }
@@ -56,10 +58,10 @@ export default function Leaderboard() {
         Leaderboard
       </h1>
       <div className='overflow-x-auto'>
-        <table className='w-full table-fixed'>
+        <table className='w-[720px] md:w-full'>
           <thead>
             <tr className='bg-zinc-100 dark:bg-emerald-700'>
-              <th className='p-2 text-left text-zinc-900 dark:text-emerald-100 px-6 rounded-tl'>
+              <th className='w-[390px] p-2 text-left text-zinc-900 dark:text-emerald-100 px-6 rounded-tl'>
                 Name
               </th>
               <th className='p-2 text-left text-zinc-900 dark:text-emerald-100'>
@@ -95,18 +97,32 @@ export default function Leaderboard() {
                   }
                 >
                   <td className='p-2 text-zinc-800 dark:text-emerald-100 px-6 capitalize'>
-                    <div className='flex w-[200px] items-center justify-start gap-2'>
-                      <svg
-                        xmlns='http://www.w3.org/2000/svg'
-                        width={16}
-                        height={16}
-                        fill='currentColor'
-                        className='h-3 w-h-3 fill-zinc-800 transition group-hover:fill-zinc-600 dark:fill-zinc-200 dark:group-hover:fill-zinc-300'
-                        viewBox='0 0 16 16'
-                      >
-                        <path d='M12.6.75h2.454l-5.36 6.142L16 15.25h-4.937l-3.867-5.07-4.425 5.07H.316l5.733-6.57L0 .75h5.063l3.495 4.633L12.601.75Zm-.86 13.028h1.36L4.323 2.145H2.865z' />
-                      </svg>
-                      <p className='truncate'>{entry.displayname}</p>
+                    <div className='flex items-center justify-start gap-2'>
+                      {entry.xUsername && (
+                        <a
+                          href={`https://x.com/${entry.xUsername}`}
+                          target='_blank'
+                          rel='noopener'
+                        >
+                          <svg
+                            xmlns='http://www.w3.org/2000/svg'
+                            width={16}
+                            height={16}
+                            fill='currentColor'
+                            className='h-3 w-h-3 fill-zinc-800 transition group-hover:fill-zinc-600 dark:fill-zinc-200 dark:group-hover:fill-zinc-300'
+                            viewBox='0 0 16 16'
+                          >
+                            <path d='M12.6.75h2.454l-5.36 6.142L16 15.25h-4.937l-3.867-5.07-4.425 5.07H.316l5.733-6.57L0 .75h5.063l3.495 4.633L12.601.75Zm-.86 13.028h1.36L4.323 2.145H2.865z' />
+                          </svg>
+                        </a>
+                      )}
+                      <div className='flex items-center gap-1 whitespace-nowrap'>
+                        <p className='truncate'>{entry.displayname}</p>
+                        <p>
+                          {entry.displayname === currentUser.displayname &&
+                            `(you)`}
+                        </p>
+                      </div>
                     </div>
                   </td>
 

@@ -10,12 +10,17 @@ export const useCurrentUser = () => {
   useEffect(() => {
     const fetchUser = async () => {
       const supabase = createClient();
-      const { data, error } = await supabase.auth.getUser();
+      const { data: authUser } = await supabase.auth.getUser();
+      const { data, error } = await supabase
+        .from("users")
+        .select("*")
+        .eq("id", authUser.user?.id)
+        .single();
 
       if (error) {
         setError(error);
       } else {
-        setUser(data.user);
+        setUser(data);
       }
       setLoading(false);
     };
