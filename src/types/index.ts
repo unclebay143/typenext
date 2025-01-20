@@ -36,6 +36,7 @@ export interface LeaderboardEntry extends GameResult {
   xUsername: string;
   wpm: number;
   accuracy: number;
+  created_at: Date;
 }
 
 export interface GameSettings {

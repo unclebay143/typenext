@@ -22,13 +22,13 @@ export default async function UserResult() {
   await handleRedirectUnAuthenticatedUser();
   return (
     <div className='p-6 rounded-lg'>
-      <h1 className='text-3xl font-bold mb-6 text-gray-900 dark:text-white'>
-        Your results
+      <h1 className='text-3xl font-bold mb-6 text-center text-gray-900 dark:text-white'>
+        Your typing histories
       </h1>
       <div className='overflow-x-auto'>
         {!userResults ? (
           <div>
-            Your game result histories will appear here when you start playing.
+            Your game typing histories will appear here when you start playing.
           </div>
         ) : (
           <table className='w-full'>

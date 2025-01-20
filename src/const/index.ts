@@ -1,4 +1,4 @@
-import { GameText, LeaderboardEntry, Profession } from "../types";
+import { GameText, Profession } from "../types";
 
 export const professions: { profession: Profession; description: string }[] = [
   {
@@ -375,32 +375,4 @@ export const gameTexts: GameText[] = [
       "Define metrics for measuring success and adjustments to be made based on performance. This plan should serve as a roadmap for your marketing efforts, ensuring that all activities are aligned with business objectives.",
     ],
   },
-];
-
-export const mockLeaderboard: LeaderboardEntry[] = [
-  {
-    name: "Alice",
-    profession: "programmer",
-    level: "advanced",
-    wpm: 80,
-    accuracy: 98,
-    character: 100,
-  },
-  {
-    name: "Bob",
-    profession: "technicalWriter",
-    level: "intermediate",
-    wpm: 65,
-    accuracy: 97,
-    character: 10,
-  },
-  {
-    name: "Charlie",
-    profession: "designer",
-    level: "beginner",
-    wpm: 45,
-    accuracy: 95,
-    character: 200,
-  },
-  // Add more leaderboard entries as needed
 ];

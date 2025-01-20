@@ -1,16 +1,24 @@
 "use client";
 
 import { login } from "@/actions/auth";
+import { createClient } from "@/lib/supabase/client";
 import { useState } from "react";
 import { FcGoogle } from "react-icons/fc";
 
 export default function SignInForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const handleGoogleSignIn = () => {
-    // Handle Google sign-in logic here
-    console.log("Sign in with Google");
+  const handleGoogleSignIn = async () => {
+    setLoading(true);
+    const supabase = createClient();
+    await supabase.auth.signInWithOAuth({
+      provider: "google",
+      options: {
+        redirectTo: `${window.location.origin}/auth/callback?next=/game-settings`,
+      },
+    });
   };
 
   return (
@@ -51,8 +59,9 @@ export default function SignInForm() {
       </div>
       <div>
         <button
+          disabled={loading}
           formAction={login}
-          className='w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500'
+          className='cursor-pointer disabled:opacity-70 disabled:cursor-not-allowed w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500'
         >
           Sign In
         </button>
@@ -69,9 +78,10 @@ export default function SignInForm() {
       </div>
       <div>
         <button
+          disabled={loading}
           type='button'
           onClick={handleGoogleSignIn}
-          className='w-full flex items-center justify-center py-2 px-4 border border-gray-300 dark:border-emerald-600 rounded-md shadow-sm text-sm font-medium text-gray-700 dark:text-white bg-white dark:bg-emerald-700/50 hover:bg-gray-50 dark:hover:bg-emerald-600/50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500'
+          className='cursor-pointer disabled:opacity-70 disabled:cursor-not-allowed w-full flex items-center justify-center py-2 px-4 border border-gray-300 dark:border-emerald-600 rounded-md shadow-sm text-sm font-medium text-gray-700 dark:text-white bg-white dark:bg-emerald-700/50 hover:bg-gray-50 dark:hover:bg-emerald-600/50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500'
         >
           <FcGoogle className='w-5 h-5 mr-2' />
           Sign in with Google

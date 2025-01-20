@@ -19,7 +19,7 @@ export default function Game() {
   const [gameResult, setGameResult] = useState<GameResult | null>(null);
   const router = useRouter();
   const searchParams = useSearchParams();
-  const { user: currentUser } = useCurrentUser();
+  const { user: currentUser, loading: isLoadingUser } = useCurrentUser();
 
   useEffect(() => {
     const profession = searchParams.get("profession") as Profession;
@@ -66,8 +66,6 @@ export default function Game() {
           top_result: newResult?.id,
         });
       }
-
-      console.log(currentTopResult);
     }
   };
 
@@ -84,7 +82,14 @@ export default function Game() {
   }
 
   return (
-    <div className='max-w-4xl mx-auto'>
+    <div className='max-w-4xl mx-auto relative'>
+      {!isLoadingUser && !currentUser && (
+        <div className='mt-8 text-center fixed right-0 bottom-4 w-full flex flex-col items-center gap-2'>
+          <span className='text-red-500'>
+            You are not logged in, so your results will not be saved.
+          </span>
+        </div>
+      )}
       {!gameResult ? (
         <TypingGame
           profession={gameSettings.profession}

@@ -17,6 +17,9 @@ import { createClient } from "@/lib/supabase/client";
 import { cn } from "@/lib/utils";
 import { User } from "@/types";
 import { toast } from "sonner";
+import { useNetworkStatus } from "@/hooks/use-network-status";
+import { OfflineScreen } from "./offline-screen";
+import { usePathname } from "next/navigation";
 
 export default function Layout({
   children,
@@ -25,10 +28,14 @@ export default function Layout({
   children: React.ReactNode;
   currentUser: User | null;
 }) {
+  const { isOnline } = useNetworkStatus();
   const { theme, setTheme } = useTheme();
+
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const xUsernameRef = useRef<HTMLInputElement | null>(null);
   const [updating, setUpdating] = useState(false);
+  const pathname = usePathname();
+  const hideOfflineScreenForPathname = ["/", "/leaderboard"].includes(pathname);
 
   const toggleMobileMenu = useCallback(() => {
     setMobileMenuOpen((prev) => !prev);
@@ -37,6 +44,7 @@ export default function Layout({
   const handleLogOut = async () => {
     const supabase = createClient();
     await supabase.auth.signOut();
+    window.location.reload();
   };
 
   const toggleDarkMode = useCallback(() => {
@@ -58,6 +66,11 @@ export default function Layout({
       setUpdating(false);
     }
   };
+
+  if (!hideOfflineScreenForPathname && !isOnline) {
+    return <OfflineScreen />;
+  }
+
   return (
     <div className='min-h-screen bg-white dark:bg-gradient-to-br dark:from-emerald-900 dark:via-emerald-800 dark:to-emerald-950 duration-300'>
       <header

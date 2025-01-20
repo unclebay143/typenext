@@ -6,7 +6,7 @@ import {
   ClipboardEvent,
 } from "react";
 import { Profession, Level, GameResult } from "@/types";
-import { gameTexts } from "../data/mockData";
+import { gameTexts } from "../const";
 
 interface TypingGameProps {
   profession: Profession;
@@ -193,7 +193,7 @@ export default function TypingGame({
       <div className=''>
         {timerEnabled && (
           <div
-            className={`text-lg font-semibold text-right text-zinc-700 ${
+            className={`text-lg font-semibold text-right text-zinc-700 dark:text-zinc-200 ${
               timeLeft <= 10 && "text-red-500"
             }`}
           >
@@ -222,8 +222,7 @@ export default function TypingGame({
         rows={5}
         disabled={endTime !== null}
       />
-      {/* Todo: find error sound to add here */}
-      {/* <audio ref={audioRef} src='/error.mp3' /> */}
+      <audio ref={audioRef} src='/windows-error.mp3' />
     </div>
   );
 }

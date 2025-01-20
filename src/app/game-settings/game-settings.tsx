@@ -12,9 +12,11 @@ import ProfessionSelect from "@/components/ProfessionSelect";
 import LevelSelect from "@/components/LevelSelect";
 import TypeSelect from "@/components/TypeLength";
 import { Switch } from "@/components/ui/switch";
+import { useCurrentUser } from "@/hooks/currentUser";
 
 export default function GameSettings() {
   const router = useRouter();
+  const { user: currentUser, loading: isLoadingUser } = useCurrentUser();
   const [gameSettings, setGameSettings] = useState<GameSettingsType>({
     profession: "others",
     duration: "short",
@@ -83,7 +85,12 @@ export default function GameSettings() {
           </div>
         </div>
       </div>
-      <div className='mt-8 text-center fixed right-0 bottom-4 w-full'>
+      <div className='mt-8 text-center fixed right-0 bottom-4 w-full flex flex-col items-center gap-2'>
+        {!isLoadingUser && !currentUser && (
+          <span className='text-red-500'>
+            You are not logged in, so your results will not be saved.
+          </span>
+        )}
         <button
           onClick={handleStartGame}
           className='px-8 py-3 bg-emerald-600 text-white rounded-lg font-semibold hover:bg-emerald-700 transition-colors'

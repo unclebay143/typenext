@@ -22,7 +22,7 @@ export default function Onboard() {
           <button
             className={`flex-1 py-2 text-center ${
               activeTab === "signin"
-                ? "bg-emerald-500 text-white"
+                ? "bg-zinc-500 dark:bg-emerald-500 text-white"
                 : "bg-gray-200 text-gray-700 dark:bg-emerald-700/50 dark:text-white"
             } rounded-l-lg transition-colors duration-200`}
             onClick={() => setActiveTab("signin")}
@@ -32,7 +32,7 @@ export default function Onboard() {
           <button
             className={`flex-1 py-2 text-center ${
               activeTab === "signup"
-                ? "bg-emerald-500 text-white"
+                ? "bg-zinc-500 dark:bg-emerald-500 text-white"
                 : "bg-gray-200 text-gray-700 dark:bg-emerald-700/50 dark:text-white"
             } rounded-r-lg transition-colors duration-200`}
             onClick={() => setActiveTab("signup")}

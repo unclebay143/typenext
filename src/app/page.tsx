@@ -39,7 +39,6 @@ const faqs = [
       "TypeNext⚡ offers profession-specific typing practice with real-world content, making your practice sessions more relevant to your daily work.",
   },
   {
-    isOpen: true,
     question: "How does the scoring system work?",
     answer:
       "Your score is calculated based on both speed (WPM - Words Per Minute) and accuracy. The formula ensures a balanced evaluation of your typing skills.",
@@ -122,7 +121,6 @@ export default function Home() {
           <div className='space-y-4'>
             {faqs.map((faq, index) => (
               <details
-                open={faq.isOpen}
                 key={index}
                 className='group bg-white dark:bg-emerald-700/50 rounded-lg shadow-lg hover:shadow-xl transition-all'
               >
