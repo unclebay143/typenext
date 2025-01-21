@@ -1,6 +1,7 @@
 import { createClient } from "@/lib/supabase/server";
 import { getRelativeTimeFromNow } from "@/utils/date";
 import { handleRedirectUnAuthenticatedUser } from "@/utils/private";
+import { History } from "lucide-react";
 
 const getUserResults = async () => {
   const supabase = createClient();
@@ -20,15 +21,20 @@ const getUserResults = async () => {
 export default async function UserResult() {
   const userResults = await getUserResults();
   await handleRedirectUnAuthenticatedUser();
+
+  const showEmptyState = userResults?.length === 0;
   return (
     <div className='p-6 rounded-lg'>
-      <h1 className='text-3xl font-bold mb-6 text-center text-gray-900 dark:text-white'>
-        Your typing histories
-      </h1>
+      {showEmptyState || (
+        <h1 className='text-3xl font-bold mb-6 text-center text-gray-900 dark:text-white'>
+          Your typing histories
+        </h1>
+      )}
       <div className='overflow-x-auto'>
-        {!userResults ? (
-          <div>
-            Your game typing histories will appear here when you start playing.
+        {showEmptyState ? (
+          <div className='flex flex-col gap-5 justify-center items-center min-h-[50vh]'>
+            <History size={50} />
+            Your typing histories will appear here when you start playing.
           </div>
         ) : (
           <table className='w-full'>

@@ -32,11 +32,18 @@ export interface GameResult {
 }
 
 export interface LeaderboardEntry extends GameResult {
-  displayname: string;
-  xUsername: string;
-  wpm: number;
-  accuracy: number;
-  created_at: Date;
+  id: string;
+  user: {
+    id: string;
+    displayname: string;
+    xUsername: string;
+  };
+  top_result: {
+    created_at: Date;
+    wpm: number;
+    accuracy: number;
+    profession: string;
+  };
 }
 
 export interface GameSettings {

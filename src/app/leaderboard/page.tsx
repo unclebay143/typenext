@@ -24,7 +24,12 @@ export default function Leaderboard() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const { data, error } = await supabase.rpc("get_leaderboard_v0");
+      const { data, error } = await supabase
+        .from("leaderboard")
+        .select(
+          `*, user(id, displayname, xUsername), top_result(accuracy, wpm, created_at, profession)`
+        );
+
       if (error) {
         console.error("Error fetching user WPM and accuracy:", error);
       }
@@ -48,6 +53,8 @@ export default function Leaderboard() {
 
     // return () => supabase.removeChannel("leaderboard"); // Todo: figure the type here out
   }, [supabase]);
+
+  console.log(leaderboard);
 
   const handleUpdate = async (e: FormEvent) => {
     e.preventDefault();
@@ -77,20 +84,25 @@ export default function Leaderboard() {
   const TrEmptyState = ({ className }: { className: string }) => (
     <tr className={className}>
       <td className='p-2 text-zinc-800 animate-pulse dark:text-emerald-100 px-6 capitalize'>
-        <div className='w-52 h-6 bg-zinc-200 dark:bg-emerald-700 rounded-sm' />
+        <div className='w-48 h-6 bg-zinc-200 dark:bg-emerald-700 rounded-sm' />
       </td>
 
       <td className='p-2 text-zinc-800 animate-pulse dark:text-emerald-100'>
-        <div className='w-10 h-6 bg-zinc-200 dark:bg-emerald-700 rounded-sm' />
+        <div className='w-6 h-6 bg-zinc-200 dark:bg-emerald-700 rounded-sm' />
       </td>
       <td className='p-2 text-zinc-800 animate-pulse dark:text-emerald-100'>
         <div className='w-10 h-6 bg-zinc-200 dark:bg-emerald-700 rounded-sm' />
       </td>
       <td className='p-2 text-zinc-800 animate-pulse dark:text-emerald-100'>
-        <div className='w-5 mx-auto h-6 bg-zinc-200 dark:bg-emerald-700 rounded-sm' />
-      </td>
-      <td className='p-2 text-zinc-800 animate-pulse dark:text-emerald-100 flex justify-end'>
         <div className='w-24 h-6 bg-zinc-200 dark:bg-emerald-700 rounded-sm' />
+      </td>
+
+      <td className='p-2 text-zinc-800 animate-pulse dark:text-emerald-100'>
+        <div className='w-6 h-6 bg-zinc-200 dark:bg-emerald-700 rounded-sm' />
+      </td>
+
+      <td className='p-2 text-zinc-800 animate-pulse dark:text-emerald-100 flex justify-end'>
+        <div className='w-20 h-6 bg-zinc-200 dark:bg-emerald-700 rounded-sm' />
       </td>
     </tr>
   );
@@ -132,8 +144,15 @@ export default function Leaderboard() {
                 <th className='p-2 text-left text-zinc-900 dark:text-emerald-100'>
                   Accuracy
                 </th>
-                <th className='w-[0px] text-zinc-900 dark:text-emerald-100'></th>
-                <th className='w-[150px] text-zinc-900 dark:text-emerald-100 rounded-tr'></th>
+                <th className='p-2 text-left text-zinc-900 dark:text-emerald-100'>
+                  Profession
+                </th>
+                <th className='p-2 text-left text-zinc-900 dark:text-emerald-100'>
+                  Rank
+                </th>
+                <th className='p-2 text-right text-zinc-900 dark:text-emerald-100 rounded-tr'>
+                  Timestamp ⌛
+                </th>
               </tr>
             </thead>
             <tbody>
@@ -162,10 +181,10 @@ export default function Leaderboard() {
                   >
                     <td className='p-2 text-zinc-800 dark:text-emerald-100 px-6 capitalize'>
                       <div className='flex items-center justify-start gap-2'>
-                        <div className='flex items-center gap-1 whitespace-nowrap'>
-                          {entry.xUsername && (
+                        <div className='flex items-center justify-start gap-1 whitespace-nowrap'>
+                          {entry.user.xUsername && (
                             <a
-                              href={`https://x.com/${entry.xUsername}`}
+                              href={`https://x.com/${entry.user.xUsername}`}
                               target='_blank'
                               rel='noopener'
                             >
@@ -181,31 +200,33 @@ export default function Leaderboard() {
                               </svg>
                             </a>
                           )}
-                          <p className='truncate w-[200px]'>
-                            {entry.displayname ?? "--"}
+                          <p className='truncate max-w-[200px]'>
+                            {entry.user.displayname ?? "--"}
                           </p>
-                          {entry.displayname === currentUser?.displayname && (
-                            <p>
-                              {entry.displayname === currentUser?.displayname &&
-                                `(you)`}
-                            </p>
+                          {entry.user.id === currentUser?.id && (
+                            <p className='font-semibold'>(you)</p>
                           )}
                         </div>
                       </div>
                     </td>
 
                     <td className='p-2 text-zinc-800 dark:text-emerald-100'>
-                      {entry.wpm}
+                      {entry.top_result.wpm}
                     </td>
                     <td className='p-2 text-zinc-800 dark:text-emerald-100'>
-                      {entry.accuracy}%
+                      {entry.top_result.accuracy}%
                     </td>
-                    <td className='text-right p-2 text-zinc-800 dark:text-emerald-100 px-6 capitalize'>
+                    <td className='p-2 text-zinc-800 dark:text-emerald-100'>
+                      {entry.top_result.profession}
+                    </td>
+
+                    <td className='p-2 text-zinc-800 dark:text-emerald-100 capitalize'>
                       {mapRankIndexToRenderValue[index] ||
                         getOrdinalSuffix(index + 1)}
                     </td>
+
                     <td className='p-2 text-zinc-800 dark:text-emerald-100 text-right text-xs'>
-                      {getRelativeTimeFromNow(entry.created_at)}
+                      {getRelativeTimeFromNow(entry.top_result.created_at)}
                     </td>
                   </tr>
                 ))
