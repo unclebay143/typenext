@@ -45,8 +45,8 @@ export default async function RootLayout({
     <html lang='en' suppressHydrationWarning>
       <Script
         defer
-        data-website-id='677ae862387a31aa44576e9c'
-        data-domain='unclebigbay.com'
+        data-website-id='678f6c1d26647ab439e1e1cc'
+        data-domain='typenext.unclebigbay.com'
         src='https://datafa.st/js/script.js'
       />
       <body
