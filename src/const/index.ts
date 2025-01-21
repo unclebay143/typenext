@@ -131,7 +131,7 @@ export const gameTexts: GameText[] = [
     level: "beginner",
     duration: "short",
     text: [
-      "Draft a one-paragraph introduction to explain an application’s main feature. This introduction should clearly articulate the purpose of the application and highlight its key functionalities.",
+      "Draft a one-paragraph introduction to explain an application's main feature. This introduction should clearly articulate the purpose of the application and highlight its key functionalities.",
     ],
   },
   {
