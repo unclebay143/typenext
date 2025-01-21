@@ -28,7 +28,10 @@ export default function Leaderboard() {
         .from("leaderboard")
         .select(
           `*, user(id, displayname, xUsername), top_result(accuracy, wpm, created_at, profession)`
-        );
+        )
+        .order("top_result(wpm)", {
+          ascending: false,
+        });
 
       if (error) {
         console.error("Error fetching user WPM and accuracy:", error);
