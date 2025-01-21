@@ -42,9 +42,27 @@ export default function Leaderboard() {
       .on(
         "postgres_changes",
         { event: "INSERT", schema: "public", table: "results" },
-        () => {
+        (data) => {
+          console.log(data.new);
+          setLeaderboard((prev) => {
+            const result = prev.map((participant) => {
+              if (participant.user.id === data.new.user) {
+                return {
+                  ...participant,
+                  top_result: {
+                    ...participant.top_result,
+                    wpm:
+                      data.new.wpm > participant.top_result.wpm
+                        ? data.new.wpm
+                        : participant.top_result.wpm,
+                  },
+                };
+              }
+              return participant;
+            });
+            return result;
+          });
           console.log("Change received!");
-          fetchData();
         }
       )
       .subscribe();
@@ -53,8 +71,6 @@ export default function Leaderboard() {
 
     // return () => supabase.removeChannel("leaderboard"); // Todo: figure the type here out
   }, [supabase]);
-
-  console.log(leaderboard);
 
   const handleUpdate = async (e: FormEvent) => {
     e.preventDefault();

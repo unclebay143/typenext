@@ -55,22 +55,37 @@ export default function Game() {
         .select()
         .single();
 
-      const { data: currentTopResult } = await supabase
+      const { data: currentUserLeaderboard } = await supabase
         .from("leaderboard")
-        .select("top_result")
-        .eq("user", currentUser.id);
+        .select("id, top_result(*)")
+        .eq("user", currentUser.id)
+        .single();
 
-      const firstTimer = currentTopResult?.length === 0;
+      const currentTopResult = currentUserLeaderboard?.top_result;
+      const firstTimer = !currentUserLeaderboard?.id;
+
       if (firstTimer) {
+        console.log("first timer");
         await supabase.from("leaderboard").insert({
           top_result: newResult?.id,
         });
+      }
+
+      // @ts-expect-error wpm type
+      if (result.wpm > currentTopResult?.wpm) {
+        await supabase
+          .from("leaderboard")
+          .update({
+            top_result: newResult?.id,
+          })
+          .eq("id", currentUserLeaderboard?.id)
+          .select();
       }
     }
   };
 
   const resetGame = () => {
-    router.push("/game-settings");
+    setGameResult(null);
   };
 
   if (!gameSettings) {
@@ -90,6 +105,7 @@ export default function Game() {
           </span>
         </div>
       )}
+
       {!gameResult ? (
         <TypingGame
           profession={gameSettings.profession}

@@ -19,7 +19,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "TypeNext ⚡",
+  title: "TypeNext",
   description: "",
   openGraph: {
     images: [

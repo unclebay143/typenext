@@ -275,5 +275,153 @@ export const gameTexts: GameText[] = [
     ],
   },
 
-  // Add for UxResearcher, DevOpsEngineer and cybersecurityanalyst
+  // UX Researcher
+  {
+    profession: "uxResearcher",
+    level: "beginner",
+    duration: "short",
+    text: [
+      "Conduct a brief user interview to gather insights about user needs and preferences. Prepare a set of open-ended questions to encourage detailed responses.",
+    ],
+  },
+  {
+    profession: "uxResearcher",
+    level: "beginner",
+    duration: "long",
+    text: [
+      "Analyze the feedback collected from user interviews to identify common themes and pain points. Summarize your findings in a report to share with your team.",
+    ],
+  },
+  {
+    profession: "uxResearcher",
+    level: "intermediate",
+    duration: "short",
+    text: [
+      "Create user personas based on research data to represent different user types. Include demographics, goals, and challenges for each persona.",
+    ],
+  },
+  {
+    profession: "uxResearcher",
+    level: "intermediate",
+    duration: "long",
+    text: [
+      "Design a usability test plan to evaluate a product's interface. Outline the objectives, tasks, and metrics for measuring user performance.",
+    ],
+  },
+  {
+    profession: "uxResearcher",
+    level: "advanced",
+    duration: "short",
+    text: [
+      "Conduct a heuristic evaluation of a website or application. Identify usability issues based on established usability principles.",
+    ],
+  },
+  {
+    profession: "uxResearcher",
+    level: "advanced",
+    duration: "long",
+    text: [
+      "Present your research findings and recommendations to stakeholders. Use visual aids, such as charts and graphs, to effectively communicate your insights.",
+    ],
+  },
+
+  // DevOps Engineer
+  {
+    profession: "devOpsEngineer",
+    level: "beginner",
+    duration: "short",
+    text: [
+      "Set up a basic CI/CD pipeline using a tool like GitHub Actions or Travis CI. Ensure that your code is automatically tested on each commit.",
+    ],
+  },
+  {
+    profession: "devOpsEngineer",
+    level: "beginner",
+    duration: "long",
+    text: [
+      "Document the steps taken to configure the CI/CD pipeline. Include details about the tools used, the configuration files, and any challenges faced.",
+    ],
+  },
+  {
+    profession: "devOpsEngineer",
+    level: "intermediate",
+    duration: "short",
+    text: [
+      "Implement containerization for your application using Docker. Create a Dockerfile that defines the environment and dependencies needed to run your app.",
+    ],
+  },
+  {
+    profession: "devOpsEngineer",
+    level: "intermediate",
+    duration: "long",
+    text: [
+      "Deploy your containerized application to a cloud platform like AWS or Azure. Ensure that you configure networking and security settings appropriately.",
+    ],
+  },
+  {
+    profession: "devOpsEngineer",
+    level: "advanced",
+    duration: "short",
+    text: [
+      "Set up monitoring and logging for your application using tools like Prometheus and Grafana. Ensure that you can track performance metrics and logs in real-time.",
+    ],
+  },
+  {
+    profession: "devOpsEngineer",
+    level: "advanced",
+    duration: "long",
+    text: [
+      "Conduct a post-mortem analysis of a recent incident. Document the root cause, the impact on users, and the steps taken to resolve the issue.",
+    ],
+  },
+
+  // Cybersecurity Analyst
+  {
+    profession: "cybersecurityAnalyst",
+    level: "beginner",
+    duration: "short",
+    text: [
+      "Perform a basic security assessment of a web application. Identify common vulnerabilities such as SQL injection and cross-site scripting (XSS).",
+    ],
+  },
+  {
+    profession: "cybersecurityAnalyst",
+    level: "beginner",
+    duration: "long",
+    text: [
+      "Document your findings from the security assessment. Provide recommendations for mitigating identified vulnerabilities and improving overall security posture.",
+    ],
+  },
+  {
+    profession: "cybersecurityAnalyst",
+    level: "intermediate",
+    duration: "short",
+    text: [
+      "Set up a firewall to protect your network. Configure rules to allow or block traffic based on specific criteria.",
+    ],
+  },
+  {
+    profession: "cybersecurityAnalyst",
+    level: "intermediate",
+    duration: "long",
+    text: [
+      "Conduct a phishing simulation to test employee awareness. Analyze the results to identify areas for improvement in security training.",
+    ],
+  },
+  {
+    profession: "cybersecurityAnalyst",
+    level: "advanced",
+    duration: "short",
+    text: [
+      "Develop an incident response plan for your organization. Outline the steps to take in the event of a security breach.",
+    ],
+  },
+  {
+    profession: "cybersecurityAnalyst",
+    level: "advanced",
+    duration: "long",
+    text: [
+      "Conduct a thorough analysis of a recent security incident. Document the timeline, impact, and lessons learned to improve future response efforts.",
+    ],
+  },
 ];
